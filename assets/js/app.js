@@ -3,7 +3,7 @@ var svgWidth = 800;
 var svgHeight = 600;
 
 // Define the chart's margins as an object
-var chartMargin = { top: 30, right: 30, bottom: 30, left: 30 };
+var chartMargin = { top: 30, right: 30, bottom: 45, left: 30 };
 
 // Define dimensions of the chart area
 var chartWidth = svgWidth - chartMargin.left - chartMargin.right;
@@ -81,14 +81,13 @@ d3.csv("./assets/resources/data.csv").then(function (stateData) {
 
 
      // Add axis labels
-    chartGroup.append("g")
-        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top + 13})`)
+    chartGroup.append("text")
+        .attr("transform", `translate(${chartWidth / 2},  ${chartHeight + chartMargin.bottom - 5})`)
         .attr("text-anchor", "middle")
         .text("Mean Age");
 
-    chartGroup.append("g")
-        .attr("y", 0 - ((chartMmargin.left / 2) + 2))
-        .attr("x", 0 - (chartHeight / 2))
+    chartGroup.append("text")
+        .attr("transform", `translate(${chartWidth},  1200)`)
         .attr("text-anchor", "middle")
         .attr("transform", "rotate(-90)")
         .text("smokers (%)");
