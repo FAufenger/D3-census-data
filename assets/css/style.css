@@ -3,7 +3,6 @@
   border: 1px solid #e3e3e3;
 }
 
-/* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
 html {
   position: relative;
   min-height: 100%;
@@ -13,6 +12,18 @@ body {
   /* Padding bottom by footer height */
   padding-bottom: 80px;
 }
+
+
+/* .sateAbbreviation {
+    text-anchor: "middle";
+    fill: "black";
+    font-size: "12px";
+    font-weight: "bold";
+    alignment-baseline: "central";
+} */
+
+
+/* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
 
 #footer {
   position: absolute;

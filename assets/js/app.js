@@ -3,7 +3,7 @@ var svgWidth = 800;
 var svgHeight = 600;
 
 // Define the chart's margins as an object
-var chartMargin = { top: 30, right: 30, bottom: 45, left: 30 };
+var chartMargin = { top: 30, right: 30, bottom: 45, left: 45 };
 
 // Define dimensions of the chart area
 var chartWidth = svgWidth - chartMargin.left - chartMargin.right;
@@ -19,33 +19,43 @@ var svg = d3.select("#scatterPlot")
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
+// var xSelect = "age";
+// var ySelect = "smokes";
+
 // Import data from data.csv 
 d3.csv("./assets/resources/data.csv").then(function (stateData) {
-    // CHeck to see what imported data looks like
+    // Check to see what imported data looks like
     console.log(stateData);
 
 
     // Cast the hours value to a number for each piece of tvData
     stateData.forEach(function (d) {
+        d.poverty = +d.poverty;
         d.age = +d.age;
+        d.income = +d.income;
+        d.healthcare =  +d.healthcare;
+        d.obesity = +d.obesity;
         d.smokes = +d.smokes;
     });
 
-    // Create a linear scales for axis
+    
+    // Create a dynamic linear scale for axis
     var xLinearScale = d3.scaleLinear()
-        .domain([0, (d3.max(stateData, d => d.age) + 5)])
+        .domain([(d3.min(stateData, d => d.age) - 1), (d3.max(stateData, d => d.age) + 1)])
         .range([0, chartWidth]);
 
     var yLinearScale = d3.scaleLinear()
-        .domain([0, (d3.max(stateData, d => d.smokes) + 5)])
+        .domain([(d3.min(stateData, d => d.smokes) - 1), (d3.max(stateData, d => d.smokes) + 1)])
         .range([chartHeight, 0]);
 
-    // Create axis function
+
+    // Create axis as a function
     var xAxis = d3.axisBottom(xLinearScale);
     var yAxis = d3.axisLeft(yLinearScale)  //.ticks(10);
 
+
     // Append two SVG group elements to the chartGroup area,
-    // and create the bottom and left axes inside of them
+    // and create the bottom (x) and left (y) axes inside of them
     chartGroup.append("g")
         .attr("transform", `translate(0, ${chartHeight})`)
         .call(xAxis);
@@ -59,7 +69,7 @@ d3.csv("./assets/resources/data.csv").then(function (stateData) {
     chartGroup.selectAll(".circle")
         .data(stateData)
         .enter()
-        .append("circle") //.attr("class", "bar")
+        .append("circle") //.attr("class", "cir")
         .attr("cx", d => xLinearScale(d.age))
         .attr("cy", d => yLinearScale(d.smokes))
         .attr("r", "12")
@@ -76,21 +86,24 @@ d3.csv("./assets/resources/data.csv").then(function (stateData) {
         .text(d=>d.abbr)
         .attr("x",d=>xLinearScale(d.age))
         .attr("y",d=>yLinearScale(d.smokes))
+        //.classed("sateAbbreviation" = true)
         .attr("text-anchor", "middle")
+        .attr("fill", "black")
+        .attr("font-size", "12px")
+        .style("font-weight", "bold")
         .attr("alignment-baseline", "central");
 
 
      // Add axis labels
     chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2},  ${chartHeight + chartMargin.bottom - 5})`)
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.bottom - 5})`)
         .attr("text-anchor", "middle")
         .text("Mean Age");
 
     chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth},  1200)`)
+        .attr("transform", `translate(${-30}, ${chartHeight/2}), rotate(270)`)
         .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .text("smokers (%)");
+        .text("Smokers (%)");
 
 
 
