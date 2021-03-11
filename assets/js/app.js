@@ -53,6 +53,7 @@ d3.csv("./assets/resources/data.csv").then(function (stateData) {
     chartGroup.append("g")
         .call(yAxis);
     
+
     // Create one SVG circle per piece of stateData
     // Use the linear scales to position each circle within the chart
     chartGroup.selectAll(".circle")
@@ -65,18 +66,35 @@ d3.csv("./assets/resources/data.csv").then(function (stateData) {
         .attr("stroke-width", "1")
         .attr("fill", "green")
         .attr("opacity", ".6");
-    
-        // Add axis labels
-    chartGroup.append("text")
-        .attr("transform", `translate(${width / 2}, ${height + margin.top + 13})`)
-        .attr("text-anchor", "middle")
-        .text(" Median Age");
 
-    chartGroup.append("text")
-        .attr("y", 0 - ((margin.left / 2) + 2))
-        .attr("x", 0 - (height / 2))
+    // Add text to data points
+    chartGroup.append("g")
+        .selectAll('text')
+        .data(stateData)
+        .enter()
+        .append("text")
+        .text(d=>d.abbr)
+        .attr("x",d=>xLinearScale(d.age))
+        .attr("y",d=>yLinearScale(d.smokes))
         .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central");
+
+
+     // Add axis labels
+    chartGroup.append("g")
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top + 13})`)
+        .attr("text-anchor", "middle")
+        .text("Mean Age");
+
+    chartGroup.append("g")
+        .attr("y", 0 - ((chartMmargin.left / 2) + 2))
+        .attr("x", 0 - (chartHeight / 2))
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
         .text("smokers (%)");
+
+
+
 
 }).catch(function (error) {
     console.log(error);
