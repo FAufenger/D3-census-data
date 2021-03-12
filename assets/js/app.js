@@ -130,7 +130,7 @@ function makeResponsive() {
         }
         var toolTip = d3.tip()
             .attr("class", "tooltip")
-            .offset([80, -60])
+            .offset([100, -80])
             .html(function (d) {
                 return (`<b>${d.state}</b><br>${labelX}: ${d[newXScale]}<br>${ySelect}: ${d[ySelect]}`);
             });
@@ -161,7 +161,7 @@ function makeResponsive() {
 
         var toolTip = d3.tip()
             .attr("class", "tooltip")
-            .offset([80, -60])
+            .offset([100, -80])
             .html(function (d) {
                 return (`<b>${d.state}</b><br> ${xSelect}: ${d[xSelect]}<br>${labelY}: ${d[newYScale]}`);
             });
@@ -269,9 +269,9 @@ function makeResponsive() {
         // Step 1: Initialize Tooltip
         var toolTip = d3.tip()
             .attr("class", "tooltip")
-            .offset([80, -60])
+            .offset([100, -80])
             .html(function (d) {
-                return (`<b>${d.state}</b><br>Avg Age: ${d[xSelect]}<br>Smokes: ${d[ySelect]}%`);
+                return (`<b>${d.state}</b><br>${xSelect}: ${d[xSelect]}<br>${ySelect}: ${d[ySelect]}%`);
             });
         // Step 2: Create the tooltip in chartGroup.
         textGroup.call(toolTip);
@@ -468,7 +468,7 @@ function makeResponsive() {
     }).catch(function (error) {
         console.log(error);
     });
-}
+};
 
 // Call main function
 makeResponsive();
@@ -564,10 +564,10 @@ d3.select(window).on("resize", makeResponsive);
     // d3.select("#selYType")
     // .on('change', function() {
     // var ySelect = d3.select(this).property('value');
+    
     //})
 
-
-    /////////// another attempt to fix plot right migration in large window ////////
+        /////////// another attempt to fix plot right migration in large window ////////
     // var aspect = width / height,
     //     chart = d3.select("#scatterPlot").select("svg");
 
@@ -581,3 +581,4 @@ d3.select(window).on("resize", makeResponsive);
     // })
 /////////////////////////////////////
 */
+/////////////////////////////////////

@@ -1,8 +1,8 @@
-/* .aText {
+.aText {
   font-family: sans-serif;
   font-size: 16px;
   text-anchor: middle;
-} */
+}
 
 .active {
   font-weight: bold;
@@ -57,13 +57,12 @@
 .tooltip {
   /* display: none; */
   position: absolute;
-  width: 150px;
-  height: 60px;
+  width: 160px;
+  height: 80px;
   padding: 5px;
-  font: 12px sans-serif;
+  font: 16px sans-serif;
   text-align: center;
-  /*setting alpha = 1*/ 
-  background: rgb(175, 132, 224, 1);
+  background: rgb(175, 132, 224);
   border: 0;
   border-radius: 10px;
 }
