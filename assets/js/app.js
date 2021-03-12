@@ -86,11 +86,11 @@ function makeResponsive() {
 
         circleGroup.transition()
             .duration(1000)
-            .attr("cx", d => newYScale(d[ySelect]));
+            .attr("cy", d => newYScale(d[ySelect]));
 
         return circleGroup;
     }
-    // Move text abbr/ update
+    // Move text abbr/ update X
     function updateXTextAbbr(textGroup, newXScale, xSelect ) {
 
         textGroup.transition()
@@ -98,7 +98,15 @@ function makeResponsive() {
         .attr("x", d => newXScale(d[xSelect]));
       
         return textGroup;
+    };
+       // Move text abbr/ update Y
+       function updateYTextAbbr(textGroup, newYScale, ySelect ) {
 
+        textGroup.transition()
+        .duration(1000)
+        .attr("y", d => newYScale(d[ySelect]));
+      
+        return textGroup;
     };
 
     // function used for updating X circles group with new tooltip
@@ -115,7 +123,7 @@ function makeResponsive() {
         .attr("class", "tooltip")
         .offset([80, -60])
         .html(function(d) {
-            return (`<b>${d.state}</b><br>${labelX}: ${d[newXScale]}<br>Smokes(%): ${d[ySelect]}`);
+            return (`<b>${d.state}</b><br>${labelX}: ${d[newXScale]}<br>${ySelect}: ${d[ySelect]}`);
         });
     
         textGroup.call(toolTip);
@@ -132,19 +140,27 @@ function makeResponsive() {
     };
 
     // function used for updating Y circles group with new tooltip
-    function updateYToolTip(ySelect, textGroup) {
+    function updateYToolTip(newYScale, textGroup) {
+        switch (newYScale) {
+            case "smokes":
+                var labelY = "Smokers(%)"; break;
+            case "obesity":
+                var labelY = "Obese(%)"; break;
+            case "healthcare":
+                var labelY = "No Healthcare(%)";break; 
+        }
 
         var toolTip = d3.tip()
         .attr("class", "tooltip")
         .offset([80, -60])
         .html(function(d) {
-            return (`<b>${d.state}</b><br>Avg Age: ${d[xSelect]}<br>Smokes: ${d[ySelect]}%`);
+            return (`<b>${d.state}</b><br> ${xSelect}: ${d[xSelect]}<br>${labelY}: ${d[newYScale]}`);
         });
     
         textGroup.call(toolTip);
     
         textGroup.on("mouseover", function(data) {
-        toolTip.show(data);
+        toolTip.show(data, this);
         })
         // onmouseout event
         .on("mouseout", function(data, index) {
@@ -326,12 +342,12 @@ function makeResponsive() {
             .text("Smokers (%)");
         var  obeseLabel= yLabelsGroup.append("text")
             .attr("y", -45)
-            .attr("value", "poverty") // value to grab for event listener
+            .attr("value", "obesity") // value to grab for event listener
             .classed("inactive", true)
             .text("Obese(%)");
         var  healthcareLabel= yLabelsGroup.append("text")
             .attr("y", -80)
-            .attr("value", "income") // value to grab for event listener
+            .attr("value", "healthcare") // value to grab for event listener
             .classed("inactive", true)
             .text("Lacks Healthcare(%)");
 
@@ -367,35 +383,109 @@ function makeResponsive() {
                     textGroup = updateXTextAbbr(textGroup, xLinearScale, xSelect)
                     // updates tooltips with new info
                     textGroup = updateXToolTip(xSelect, textGroup);
+                
+                    // changes classes to change bold text
+                    if (xSelect === "age") {
+                        ageLabel
+                        .classed("active", true)
+                        .classed("inactive", false);
+                        povertyLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                        incomeLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    }
+                    else if (xSelect === "poverty") {
+                        ageLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                        povertyLabel
+                        .classed("active", true)
+                        .classed("inactive", false);
+                        incomeLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    } else {
+                        ageLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                        povertyLabel
+                        .classed("active", false)
+                        .classed("inactive", true);
+                        incomeLabel
+                        .classed("active", true)
+                        .classed("inactive", false);
+                    }
+                    console.log(xSelect);
                 };
             })
 
-//////////////////////////////////////////////////////////////////////////////////////////
-//Need to get working for transition and change on multiple chart//
-//////////////////////////////////////////////////////////////////////////////
+        // y axis labels event listener
+        yLabelsGroup.selectAll("text")
+        .on("click", function() {
+        // get value of selection
+        var value = d3.select(this).attr("value");
 
-        // // changes classes to change bold text
-        // if (chosenXAxis === "num_albums") {
-        //   albumsLabel
-        //     .classed("active", true)
-        //     .classed("inactive", false);
-        //   hairLengthLabel
-        //     .classed("active", false)
-        //     .classed("inactive", true);
-        // }
-        // else {
-        //   albumsLabel
-        //     .classed("active", false)
-        //     .classed("inactive", true);
-        //   hairLengthLabel
-        //     .classed("active", true)
-        //     .classed("inactive", false);
-        // }
-//////////////////////////////////////////////////////////
+            if (value !== ySelect) {
 
+                // replaces chosenXAxis with value
+                ySelect = value;
+                //console.log(xSelect)
 
+                // Create a dynamic linear scale for axis
+                // functions here found above csv import
+                // updates x scale for new data
+                yLinearScale = yScale(stateData, ySelect);
 
+                // updates x axis with transition
+                yAxis = renderYaxis(yLinearScale, yAxis);
 
+                // updates circles with new x values
+                circleGroup = renderYCircles(circleGroup, yLinearScale, ySelect);
+
+                // updates abbr
+                textGroup = updateYTextAbbr(textGroup, yLinearScale, ySelect)
+                // updates tooltips with new info
+                textGroup = updateYToolTip(ySelect, textGroup);
+            
+                // changes classes to change bold text
+                if (ySelect === "smokes") {
+                    smokersLabels
+                    .classed("active", true)
+                    .classed("inactive", false);
+                    obeseLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                    healthcareLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                }
+                else if (ySelect === "obesity") {
+                    smokersLabels
+                    .classed("active", false)
+                    .classed("inactive", true);
+                    obeseLabel
+                    .classed("active", true)
+                    .classed("inactive", false);
+                    healthcareLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                } else {
+                    smokersLabels
+                    .classed("active", false)
+                    .classed("inactive", true);
+                    obeseLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                    healthcareLabel
+                    .classed("active", true)
+                    .classed("inactive", false);
+                }
+            console.log(ySelect);
+            
+            };
+        })
 
 
         }).catch(function (error) {
