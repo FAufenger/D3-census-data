@@ -78,32 +78,67 @@ function makeResponsive() {
         chartGroup.append("g")
             .call(yAxis);
         
+        // Add axis labels
+        chartGroup.append("text")
+            .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.bottom - 5})`)
+            .attr("text-anchor", "middle")
+            .text("Mean Age");
+
+        chartGroup.append("text")
+            .attr("transform", `translate(${-30}, ${chartHeight/2}), rotate(270)`)
+            .attr("text-anchor", "middle")
+            .text("Smokers (%)");
 
         // Create one SVG circle per piece of stateData
         // Use the linear scales to position each circle within the chart
-        chartGroup.selectAll(".circle")
+        var circleGroup = chartGroup.selectAll(".circle")
             .data(stateData)
             .enter()
             .append("circle") //.attr("class", "cir")
             .attr("cx", d => xLinearScale(d.age))
             .attr("cy", d => yLinearScale(d.smokes))
-            .attr("r", "12")
+            .attr("r", "14")
             .attr("stroke-width", "1")
             .attr("fill", "green")
             .attr("opacity", ".6")
-            // event listener for mouseover
+            // event listener for mouseover circle color
             .on("mouseover", function() {
                 d3.select(this)
                     .attr("fill", "red");
             })
-            // event listener for mouseout
+            // event listener for mouseout circle color
             .on("mouseout", function() {
                 d3.select(this)
                   .attr("fill", "blue");
              });
 
+      
+        // //...... not working tool tip method....... // //
+        // // Use Tool Tips to have a hover over display
+        // // Step 1: Append a div to the body (#scatterPlot) to create tooltips, assign it a class
+        // // =======================================================
+        
+        // var toolTip = d3.tip().select("#scatterPlot").append("div")
+        //     .attr("class", "tooltip");
+
+        // // Step 2: Add an onmouseover event to display a tooltip
+        // //<hr>(%) Smoker: ${stateDate[d].smokes}
+        // // ========================================================
+        // circleGroup.on("mouseover", function(d) {
+        //     toolTip.style("display", "block")
+        //     .html(`State: ${d.state}<br>Age: ${d.age}<br>Smokes: ${d.smokes}`)
+        //     .style("left", d3.event.pageX + "px")
+        //     .style("top", d3.event.pageY + "px");
+        // })
+
+        // // Step 3: Add an onmouseout event to make the tooltip invisible
+        //     .on("mouseout", function() {
+        //     toolTip.style("display", "none");
+        //     });
+     
+  
         // Add text to data points
-        chartGroup.append("g")
+        textGroup = chartGroup.append("g")
             .selectAll('text')
             .data(stateData)
             .enter()
@@ -117,40 +152,37 @@ function makeResponsive() {
             .attr("font-size", "12px")
             .style("font-weight", "bold")
             .attr("alignment-baseline", "central");
+        
+        //ToolTips:
+        // Step 1: Initialize Tooltip
+        var toolTip = d3.tip()
+            .attr("class", "tooltip")
+            // .offset([80, -60])
+            .html(function(d) {
+                return (`State: ${d.state}<br>Avg Age: ${d.age}<br>Smokes: ${d.smokes}%`);
+            });
+        // Step 2: Create the tooltip in chartGroup.
+        chartGroup.call(toolTip);
+        // Step 3: Create "mouseover" event listener to display tooltip
+        textGroup.on("mouseover", function(data) {
+            toolTip.show(data, this);
+             })
+        // Step 4: Create "mouseout" event listener to hide tooltip
+            .on("mouseout", function(data, index) {
+            toolTip.hide(data);
+            });
 
-
-        // Add axis labels
-        chartGroup.append("text")
-            .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.bottom - 5})`)
-            .attr("text-anchor", "middle")
-            .text("Mean Age");
-
-        chartGroup.append("text")
-            .attr("transform", `translate(${-30}, ${chartHeight/2}), rotate(270)`)
-            .attr("text-anchor", "middle")
-            .text("Smokers (%)");
-
-        // // Use Tool Tips to have a hover over display
-        // // Step 1: Append a div to the body to create tooltips, assign it a class
-        // // =======================================================
-        // var toolTip = d3.select("body").append("div")
-        //     .attr("class", "tooltip");
-
-        // // Step 2: Add an onmouseover event to display a tooltip
-        // // ========================================================
-        // circlesGroup.on("mouseover", function(d, i) {
-        //     toolTip.style("display", "block");
-        //     toolTip.html(`Pizzas eaten: <strong>${pizzasEatenByMonth[i]}</strong>`)
-        //     .style("left", d3.event.pageX + "px")
-        //     .style("top", d3.event.pageY + "px");
-        // })
-        //     // Step 3: Add an onmouseout event to make the tooltip invisible
-        //     .on("mouseout", function() {
-        //     toolTip.style("display", "none");
+        // // Or Could put mouse over on circle 
+        // //(but text is easier to hover since text is large in circle)
+        // circleGroup.on("mouseover", function(data) {
+        //     toolTip.show(data, this);
+        //     })
+        // // onmouseout event
+        //     .on("mouseout", function(data, index) {
+        //     toolTip.hide(data);
         //     });
 
-
-            }).catch(function (error) {
+        }).catch(function (error) {
                 console.log(error);
             });
 }
@@ -168,3 +200,4 @@ d3.select(window).on("resize", makeResponsive);
       "d3": true
     }
   }*/
+  

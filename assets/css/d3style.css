@@ -52,6 +52,19 @@
   border-radius: 4px;
 }
 
+.tooltip {
+  /* display: none; */
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  padding: 2px;
+  font: 12px sans-serif;
+  text-align: center;
+  background: lightblue;
+  border: 0;
+  border-radius: 10px;
+}
+
 /* Mobile Rules */
 @media screen and (max-width: 530px) {
   .stateText {
