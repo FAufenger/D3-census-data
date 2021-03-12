@@ -218,10 +218,10 @@ function makeResponsive() {
         // and create the bottom (x) and left (y) axes inside of them
         var xAxis = chartGroup.append("g")
             .attr("transform", `translate(0, ${chartHeight})`)
-            .call(bottomAxis);
+            .call(bottomAxis).style("font-size", "17px");
 
         var yAxis = chartGroup.append("g")
-            .call(leftAxis);
+            .call(leftAxis).style("font-size", "17px");
 
 
         // Create one SVG circle per piece of stateData
@@ -259,7 +259,7 @@ function makeResponsive() {
             //.classed("sateAbbreviation" = true)
             .attr("text-anchor", "middle")
             .attr("fill", "black")
-            .attr("font-size", "12px")
+            .attr("font-size", "14px")
             .style("font-weight", "bold")
             .attr("alignment-baseline", "central");
 
@@ -317,17 +317,17 @@ function makeResponsive() {
             .attr("text-anchor", "middle")
 
         var smokersLabels = yLabelsGroup.append("text")
-            .attr("y", -10)
+            .attr("y", -25)
             .attr("value", "smokes") // value to grab for event listener
             .classed("active", true)
             .text("Smokers (%)");
         var obeseLabel = yLabelsGroup.append("text")
-            .attr("y", -45)
+            .attr("y", -60)
             .attr("value", "obesity") // value to grab for event listener
             .classed("inactive", true)
             .text("Obese(%)");
         var healthcareLabel = yLabelsGroup.append("text")
-            .attr("y", -80)
+            .attr("y", -95)
             .attr("value", "healthcare") // value to grab for event listener
             .classed("inactive", true)
             .text("Lacks Healthcare(%)");
@@ -565,5 +565,19 @@ d3.select(window).on("resize", makeResponsive);
     // .on('change', function() {
     // var ySelect = d3.select(this).property('value');
     //})
+
+
+    /////////// another attempt to fix plot right migration in large window ////////
+    // var aspect = width / height,
+    //     chart = d3.select("#scatterPlot").select("svg");
+
+    // // Event listener for window resize.
+    // // When the browser window is resized, makeResponsive() is called.
+    // d3.select(window).on("resize", function makeResponsive() {
+
+    //     var targetWidth = chart.node().getBoundingClientRect().width;
+    //     chart.attr("width", targetWidth);
+    //     chart.attr("height", targetWidth / aspect);
+    // })
 /////////////////////////////////////
 */

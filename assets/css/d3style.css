@@ -1,14 +1,15 @@
-.aText {
+/* .aText {
   font-family: sans-serif;
   font-size: 16px;
   text-anchor: middle;
-}
+} */
 
 .active {
   font-weight: bold;
   fill: #000;
   transition: fill 0.3s ease-out;
   text-anchor: middle;
+  font: 24px sans-serif;
 }
 
 .inactive {
@@ -16,6 +17,7 @@
   fill: #c9c9c9;
   transition: fill 0.3s ease-out;
   text-anchor: middle;
+  font: 22px sans-serif;
 }
 
 .inactive:hover {
@@ -30,10 +32,10 @@
   text-anchor: middle;
 }
 
-.stateCircle {
+/* .stateCircle {
   fill: #89bdd3;
   stroke: #e3e3e3;
-}
+} */
 
 .chart {
   display: block;
@@ -60,7 +62,8 @@
   padding: 5px;
   font: 12px sans-serif;
   text-align: center;
-  background: lightblue;
+  /*setting alpha = 1*/ 
+  background: rgb(175, 132, 224, 1);
   border: 0;
   border-radius: 10px;
 }
