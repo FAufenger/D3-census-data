@@ -4,23 +4,14 @@
 }
 
 html {
-  position: relative;
+  position: absolute;
   min-height: 100%;
-}
+  }
 
 body {
   /* Padding bottom by footer height */
   padding-bottom: 80px;
 }
-
-
-/* .sateAbbreviation {
-    text-anchor: "middle";
-    fill: "black";
-    font-size: "14px";
-    font-weight: "bold";
-    text-align: "central";
-} */
 
 
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
