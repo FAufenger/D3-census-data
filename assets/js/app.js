@@ -44,19 +44,19 @@ function makeResponsive() {
 
     // Create a dynamic function for linear scale for axis
     // X axis
-    
-        function xScale(stateData, xSelect) {
-            if (xSelect !== "income") {
-                var xLinearScale = d3.scaleLinear()
-                    .domain([(d3.min(stateData, d => d[xSelect]) - 2), (d3.max(stateData, d => d[xSelect]) + 2)])
-                    .range([0, chartWidth]);
-                return xLinearScale;
-            } else {  
-                var xLinearScale = d3.scaleLinear()
-                    .domain([(d3.min(stateData, d => d[xSelect]) - 3000), (d3.max(stateData, d => d[xSelect] + 3000) + 1)])
-                    .range([0, chartWidth]);
-                return xLinearScale;}
-        }
+
+    function xScale(stateData, xSelect) {
+        if (xSelect !== "income") {
+            var xLinearScale = d3.scaleLinear()
+                .domain([(d3.min(stateData, d => d[xSelect]) - 2), (d3.max(stateData, d => d[xSelect]) + 2)])
+                .range([0, chartWidth]);
+            return xLinearScale;
+        } else {  
+            var xLinearScale = d3.scaleLinear()
+                .domain([(d3.min(stateData, d => d[xSelect]) - 3000), (d3.max(stateData, d => d[xSelect] + 3000) + 1)])
+                .range([0, chartWidth]);
+            return xLinearScale;}
+    }
 
     // Y axis
     function yScale(stateData, ySelect) {

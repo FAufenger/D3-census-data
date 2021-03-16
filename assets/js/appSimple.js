@@ -113,32 +113,9 @@ function makeResponsive() {
              });
 
       
-        // //...... not working tool tip method....... // //
-        // // Use Tool Tips to have a hover over display
-        // // Step 1: Append a div to the body (#scatterPlot) to create tooltips, assign it a class
-        // // =======================================================
-        
-        // var toolTip = d3.tip().select("#scatterPlot").append("div")
-        //     .attr("class", "tooltip");
-
-        // // Step 2: Add an onmouseover event to display a tooltip
-        // //<hr>(%) Smoker: ${stateDate[d].smokes}
-        // // ========================================================
-        // circleGroup.on("mouseover", function(d) {
-        //     toolTip.style("display", "block")
-        //     .html(`State: ${d.state}<br>Age: ${d.age}<br>Smokes: ${d.smokes}`)
-        //     .style("left", d3.event.pageX + "px")
-        //     .style("top", d3.event.pageY + "px");
-        // })
-
-        // // Step 3: Add an onmouseout event to make the tooltip invisible
-        //     .on("mouseout", function() {
-        //     toolTip.style("display", "none");
-        //     });
-     
-  
+       
         // Add text to data points
-        textGroup = chartGroup.append("g")
+        var textGroup = chartGroup.append("g")
             .selectAll('text')
             .data(stateData)
             .enter()
@@ -193,3 +170,31 @@ makeResponsive();
 // Event listener for window resize.
 // When the browser window is resized, makeResponsive() is called.
 d3.select(window).on("resize", makeResponsive);
+
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////end /////////////////////////////////////////
+
+   // //...... not working tool tip method....... // //
+        // // Use Tool Tips to have a hover over display
+        // // Step 1: Append a div to the body (#scatterPlot) to create tooltips, assign it a class
+        // // =======================================================
+        
+        // var toolTip = d3.tip().select("#scatterPlot").append("div")
+        //     .attr("class", "tooltip");
+
+        // // Step 2: Add an onmouseover event to display a tooltip
+        // //<hr>(%) Smoker: ${stateDate[d].smokes}
+        // // ========================================================
+        // circleGroup.on("mouseover", function(d) {
+        //     toolTip.style("display", "block")
+        //     .html(`State: ${d.state}<br>Age: ${d.age}<br>Smokes: ${d.smokes}`)
+        //     .style("left", d3.event.pageX + "px")
+        //     .style("top", d3.event.pageY + "px");
+        // })
+
+        // // Step 3: Add an onmouseout event to make the tooltip invisible
+        //     .on("mouseout", function() {
+        //     toolTip.style("display", "none");
+        //     });
+     
